@@ -1,4 +1,4 @@
-var WorldMorph = require('./morphic').WorldMorph;
+var {WorldMorph} = require('./morphic');
 
 var world = new WorldMorph(document.getElementById('world'));
 
