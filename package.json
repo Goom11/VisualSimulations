@@ -4,6 +4,7 @@
   "description": "Create simulations through visual programming",
   "main": "app.js",
   "scripts": {
+    "build": "webpack --watch --progress --debug",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Aman Agarwal",

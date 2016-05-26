@@ -11162,3 +11162,8 @@ WorldMorph.prototype.togglePreferences = function () {
         MorphicPreferences = standardSettings;
     }
 };
+
+module.exports = {
+  WorldMorph: WorldMorph,
+  Morph: Morph,
+};
