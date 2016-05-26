@@ -1,0 +1,15 @@
+{
+  "name": "visualsimulations",
+  "version": "1.0.0",
+  "description": "Create simulations through visual programming",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Aman Agarwal",
+  "license": "ISC",
+  "dependencies": {
+    "webpack": "^1.13.1"
+  },
+  "devDependencies": {}
+}
