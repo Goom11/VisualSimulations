@@ -10985,6 +10985,8 @@ WorldMorph.prototype.togglePreferences = function () {
 };
 
 module.exports = {
-  WorldMorph: WorldMorph,
-  Morph: Morph,
+    WorldMorph: WorldMorph,
+    Morph: Morph,
+    Point: Point,
+    newCanvas: newCanvas,
 };
