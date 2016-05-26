@@ -10,7 +10,19 @@
   "author": "Aman Agarwal",
   "license": "ISC",
   "dependencies": {
+    "babel-cli": "^6.9.0",
+    "babel-core": "^6.9.0",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
     "webpack": "^1.13.1"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Goom11/VisualSimulations.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Goom11/VisualSimulations/issues"
+  },
+  "homepage": "https://github.com/Goom11/VisualSimulations#readme"
 }

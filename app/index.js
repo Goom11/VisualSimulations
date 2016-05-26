@@ -1,6 +1,6 @@
-var Morphic = require('./morphic');
+var WorldMorph = require('./morphic').WorldMorph;
 
-var world = new Morphic.WorldMorph(document.getElementById('world'));
+var world = new WorldMorph(document.getElementById('world'));
 
 world.isDevMode = true;
 
