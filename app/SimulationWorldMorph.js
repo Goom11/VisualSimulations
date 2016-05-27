@@ -7,13 +7,12 @@ var {ModifiableEllipseMorph} = require('./ModifiableEllipseMorph');
 
 class SimulationWorldMorph extends WorldMorph {
     contextMenu() {
-        var myself = this;
         var menu = super.contextMenu();
         menu.addLine();
-        menu.addItem('modifiable ellipse morph', function () {
+        menu.addItem('modifiable ellipse morph', () => {
             var newMorph = new ModifiableEllipseMorph();
             newMorph.isDraggable = true;
-            newMorph.pickUp(myself);
+            newMorph.pickUp(this);
         });
         return menu;
     }

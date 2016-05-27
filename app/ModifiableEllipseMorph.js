@@ -9,11 +9,6 @@ var {HoleyNumber} = require('./HoleyNumber');
 class ModifiableEllipseMorph extends MovableMorph {
     constructor () {
         super();
-        this.init();
-    }
-
-    init () {
-        super.init();
         this.setExtent(new Point(50, 50));
         this.toCloneCount = 0;
     }
@@ -69,13 +64,9 @@ class ModifiableEllipseMorph extends MovableMorph {
             setter : 'setPosition',
             propertyClass : HoleyPosition,
             postConditions : [
-                function (aMorph) {
-                    return aMorph.world().bounds.containsPoint(
-                        aMorph.position().add(
-                            new Point(aMorph.width(), aMorph.height())
-                        )
-                    );
-                }
+                    aMorph => aMorph.world().bounds.containsPoint(
+                        aMorph.position().add(aMorph.extent())
+                    )
             ],
         });
 

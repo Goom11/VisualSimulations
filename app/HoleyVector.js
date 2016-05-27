@@ -8,14 +8,8 @@ var {getRandomInRange, getRandomNumberFromZeroTo} = require('./mathHelpers');
 class HoleyVector extends Point {
     constructor (direction, magnitude = 1) {
         super();
-        this.init(direction, magnitude);
-    }
-
-    init (direction, magnitude) {
         var directionScaledToMagnitude =
-            direction
-                .divideBy(direction.r())
-                .multiplyBy(magnitude);
+            direction.divideBy(direction.r()).multiplyBy(magnitude);
         this.x = directionScaledToMagnitude.x;
         this.y = directionScaledToMagnitude.y;
     }

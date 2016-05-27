@@ -7,13 +7,8 @@ var {Morph, Point} = require('./morphic');
 class MovableMorph extends Morph {
     constructor() {
         super();
-        this.init();
-    }
-
-    init () {
         super.init();
         this.fps = 50;
-
         this.moveVector = new Point(1, 1);
     }
 
