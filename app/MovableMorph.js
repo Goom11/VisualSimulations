@@ -11,7 +11,7 @@ class MovableMorph extends Morph {
     }
 
     init () {
-        super.init.call(this);
+        super.init();
         this.fps = 50;
 
         this.moveVector = new Point(1, 1);

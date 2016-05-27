@@ -3,6 +3,8 @@ var {MovableMorph} = require('./MovableMorph');
 var {HoleyPropertiesSet} = require('./HoleyPropertiesSet');
 var {HoleyColor} = require('./HoleyColor');
 var {HoleyPosition} = require('./HoleyPosition');
+var {HoleyVector} = require('./HoleyVector');
+var {HoleyNumber} = require('./HoleyNumber');
 
 class ModifiableEllipseMorph extends MovableMorph {
     constructor () {
@@ -11,7 +13,7 @@ class ModifiableEllipseMorph extends MovableMorph {
     }
 
     init () {
-        super.init.call(this);
+        super.init();
         this.setExtent(new Point(50, 50));
     }
 
@@ -33,7 +35,7 @@ class ModifiableEllipseMorph extends MovableMorph {
     }
 
     developersMenu () {
-        var menu = super.developersMenu.call(this);
+        var menu = super.developersMenu();
         menu.addLine();
         menu.addItem(
             "CloneN...",
@@ -54,7 +56,7 @@ class ModifiableEllipseMorph extends MovableMorph {
         holeyProps.add({
             property : 'color',
             setter : 'setColor',
-            propertyClass : HoleyColor
+            propertyClass : HoleyColor,
         });
 
         holeyProps.add({
@@ -69,8 +71,27 @@ class ModifiableEllipseMorph extends MovableMorph {
                         )
                     );
                 }
-            ]
+            ],
         });
+
+        holeyProps.add({
+            property : 'moveVector',
+            setter : 'setMoveVector',
+            propertyClass : HoleyVector,
+        });
+
+        holeyProps.add({
+            property : 'height',
+            setter : 'setHeight',
+            propertyClass : HoleyNumber,
+        });
+
+        holeyProps.add({
+            property : 'width',
+            setter : 'setWidth',
+            propertyClass : HoleyNumber,
+        });
+
         return holeyProps;
     }
 
@@ -108,7 +129,7 @@ class PrototypeTreeMorph extends ModifiableEllipseMorph {
     }
 
     init () {
-        super.init.call(this);
+        super.init();
     }
 }
 
