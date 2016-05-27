@@ -8,7 +8,7 @@ class HoleyNumber extends Number {
 
     // TODO: move these arbitrary limits to the postconditions
     static random () {
-        return getRandomNumberFromZeroTo(200);
+        return getRandomNumberFromZeroTo(500);
     }
 }
 

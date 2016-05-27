@@ -24,12 +24,15 @@ class HoleyPropertiesSet {
     }
 
     applyOntoMorph(aMorph) {
-        var postConditionsPassed = true;
         for (var property in this.holeyPropertiesContainter) {
             var setter = this.holeyPropertiesContainter[property].setter;
             var propertyClass = this.holeyPropertiesContainter[property].propertyClass;
-            var postConditions = this.holeyPropertiesContainter[property].postConditions;
             aMorph[setter](propertyClass.random(aMorph.world()));
+        }
+
+        var postConditionsPassed = true;
+        for (var property in this.holeyPropertiesContainter) {
+            var postConditions = this.holeyPropertiesContainter[property].postConditions;
             for (let postCondition of postConditions) {
                 postConditionsPassed = postConditionsPassed && postCondition(aMorph);
             }
