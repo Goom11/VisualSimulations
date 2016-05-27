@@ -1,130 +1,116 @@
-
 var {Point, newCanvas} = require('./morphic');
 var {MovableMorph} = require('./MovableMorph');
+var {HoleyPropertiesSet} = require('./HoleyPropertiesSet');
+var {HoleyColor} = require('./HoleyColor');
+var {HoleyPosition} = require('./HoleyPosition');
 
-// ModifiableEllipseMorph //
-
-// I can be modified with constraints
-
-var ModifiableEllipseMorph;
-
-// ModifiableEllipseMorph inherits from Morph;
-
-ModifiableEllipseMorph.prototype = new MovableMorph();
-ModifiableEllipseMorph.prototype.constructor = ModifiableEllipseMorph;
-ModifiableEllipseMorph.uber = MovableMorph.prototype;
-
-function ModifiableEllipseMorph() {
-    this.init();
-}
-
-ModifiableEllipseMorph.prototype.init = function () {
-    ModifiableEllipseMorph.uber.init.call(this);
-    this.setExtent(new Point(50, 50));
-};
-
-ModifiableEllipseMorph.prototype.drawNew = function () {
-    this.image = newCanvas(this.extent());
-    var context = this.image.getContext('2d');
-    context.fillStyle = this.color.toString();
-    context.ellipse(
-        this.width()/2,
-        this.height()/2,
-        this.width()/2,
-        this.height()/2,
-        0,
-        0,
-        2 * Math.PI,
-        false
-    );
-    context.fill();
-};
-
-
-var PrototypeTreeMorph;
-
-ModifiableEllipseMorph.prototype.openInPrototypeTree = function () {
-    // open prototype tree at this morph or update prototype tree to focus on this morph
-    var prototypeTree = new PrototypeTreeMorph();
-    prototypeTree.isDraggable = true;
-    var world = this.world();
-    prototypeTree.pickUp(world);
-    world.hand.drop();
-};
-
-ModifiableEllipseMorph.prototype.developersMenu = function () {
-    var menu = ModifiableEllipseMorph.uber.developersMenu.call(this);
-    menu.addLine();
-    menu.addItem(
-        "CloneN...",
-        'cloneN',
-        'make multiple clones of this object'
-    );
-    menu.addLine();
-    menu.addItem(
-        "Open In Prototype Tree",
-        'openInPrototypeTree',
-        'open this morph in the prototype tree'
-    );
-    return menu;
-};
-
-ModifiableEllipseMorph.prototype.cloneN = function () {
-    for (var i = 0; i < 100; i++) {
-        var copy = this.fullCopy();
-        var world = this.world();
-        copy.pickUp(world);
-        world.hand.drop();
-
-        var bounds = world.bounds;
-        var origin = bounds.origin;
-        var dimensions = bounds.corner.subtract(origin);
-
-        var getRandomIntFromZeroTo = function (max) {
-            return Math.floor(Math.random() * max);
-        };
-
-        var newPosition = origin.add(
-            new Point(
-                getRandomIntFromZeroTo(dimensions.x),
-                getRandomIntFromZeroTo(dimensions.y)
-            )
-        );
-
-        var copySize = new Point(copy.width(), copy.height());
-        while (!bounds.containsPoint(newPosition.add(copySize))) {
-            newPosition = origin.add(
-                new Point(
-                    getRandomIntFromZeroTo(dimensions.x),
-                    getRandomIntFromZeroTo(dimensions.y)
-                )
-            );
-        }
-
-        copy.setPosition(newPosition);
+class ModifiableEllipseMorph extends MovableMorph {
+    constructor () {
+        super();
+        this.init();
     }
-};
 
+    init () {
+        super.init.call(this);
+        this.setExtent(new Point(50, 50));
+    }
 
-// PrototypeTreeMorph //
+    drawNew () {
+        this.image = newCanvas(this.extent());
+        var context = this.image.getContext('2d');
+        context.fillStyle = this.color.toString();
+        context.ellipse(
+            this.width()/2,
+            this.height()/2,
+            this.width()/2,
+            this.height()/2,
+            0,
+            0,
+            2 * Math.PI,
+            false
+        );
+        context.fill();
+    }
 
-// Displays the prototype tree for all ModifiableEllipseMorph
+    developersMenu () {
+        var menu = super.developersMenu.call(this);
+        menu.addLine();
+        menu.addItem(
+            "CloneN...",
+            'cloneN',
+            'make multiple clones of this object'
+        );
+        menu.addLine();
+        menu.addItem(
+            "Open In Prototype Tree",
+            'openInPrototypeTree',
+            'open this morph in the prototype tree'
+        );
+        return menu;
+    }
 
-var PrototypeTreeMorph;
+    getHoleyProperties () {
+        var holeyProps = new HoleyPropertiesSet();
+        holeyProps.add({
+            property : 'color',
+            setter : 'setColor',
+            propertyClass : HoleyColor
+        });
 
-// PrototypeTreeMorph inherits from ModifiableEllipseMorph;
+        holeyProps.add({
+            property : 'position',
+            setter : 'setPosition',
+            propertyClass : HoleyPosition,
+            postConditions : [
+                function (aMorph) {
+                    return aMorph.world().bounds.containsPoint(
+                        aMorph.position().add(
+                            new Point(aMorph.width(), aMorph.height())
+                        )
+                    );
+                }
+            ]
+        });
+        return holeyProps;
+    }
 
-PrototypeTreeMorph.prototype = new ModifiableEllipseMorph();
-PrototypeTreeMorph.prototype.constructor = PrototypeTreeMorph;
-PrototypeTreeMorph.uber = ModifiableEllipseMorph.prototype;
+    cloneN () {
+        for (var i = 0; i < 10; i++) {
+            var clone = this.fullCopy();
+            var world = this.world();
+            clone.pickUp(world);
+            world.hand.drop();
+            var holeyProps = this.getHoleyProperties();
+            var clonePostConditionsSatisfied = true;
 
-function PrototypeTreeMorph() {
-    this.init();
+            // create holey morph
+            // check that holey morph is valid
+            // if not valid, loop and reevaluate holey properties
+            // if valid, done
+            while (!holeyProps.applyOntoMorph(clone)) {}
+        }
+    }
+
+    openInPrototypeTree () {
+        // open prototype tree at this morph or update prototype tree to focus on this morph
+        var prototypeTree = new PrototypeTreeMorph();
+        prototypeTree.isDraggable = true;
+        var world = this.world();
+        prototypeTree.pickUp(world);
+        world.hand.drop();
+    }
 }
 
-PrototypeTreeMorph.prototype.init = function () {
-    PrototypeTreeMorph.uber.init.call(this);
-};
+class PrototypeTreeMorph extends ModifiableEllipseMorph {
+    constructor () {
+        super();
+        this.init();
+    }
+
+    init () {
+        super.init.call(this);
+    }
+}
 
 module.exports = {
     ModifiableEllipseMorph: ModifiableEllipseMorph

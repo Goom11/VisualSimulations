@@ -4,53 +4,42 @@
 
 var {Morph, Point} = require('./morphic');
 
+class MovableMorph extends Morph {
+    constructor() {
+        super();
+        this.init();
+    }
 
-// MovableMorph ////////////////////////////////////////////////////////
+    init () {
+        super.init.call(this);
+        this.fps = 50;
 
-var MovableMorph;
+        this.moveVector = new Point(1, 1);
+    }
 
-// Movables inherit from Morph:
+    setMoveVector (aVector) {
+        this.moveVector = aVector;
+    }
 
-MovableMorph.prototype = new Morph();
-MovableMorph.prototype.constructor = MovableMorph;
-MovableMorph.uber = Morph.prototype;
-
-// MovableMorph instance creation:
-
-function MovableMorph() {
-    this.init();
+    step () {
+        this.moveBy(this.moveVector);
+        if (this.fullBounds().top() < this.parent.top()) {
+            this.moveVector = new Point(this.moveVector.x, -1 * this.moveVector.y);
+        }
+        if (this.fullBounds().bottom() > this.parent.bottom()) {
+            this.moveVector = new Point(this.moveVector.x, -1 * this.moveVector.y);
+        }
+        if (this.fullBounds().left() < this.parent.left()) {
+            this.moveVector = new Point(-1 * this.moveVector.x, this.moveVector.y);
+        }
+        if (this.fullBounds().right() > this.parent.right()) {
+            this.moveVector = new Point(-1 * this.moveVector.x, this.moveVector.y);
+        }
+        // if (this.overlappedMorphs().length !== 0) {
+        //     this.moveVector = this.moveVector.multiplyBy(-1);
+        // }
+    }
 }
-
-// MovableMorph initialization:
-
-MovableMorph.prototype.init = function (type, speed) {
-    MovableMorph.uber.init.call(this);
-    this.fps = 50;
-
-    this.moveVector = new Point(0, 0);
-};
-
-// MovableMorph moving:
-// MovableMorph stepping:
-
-MovableMorph.prototype.step = function () {
-    this.moveBy(this.moveVector);
-    if (this.fullBounds().top() < this.parent.top()) {
-        this.moveVector = new Point(this.moveVector.x, -1 * this.moveVector.y);
-    }
-    if (this.fullBounds().bottom() > this.parent.bottom()) {
-        this.moveVector = new Point(this.moveVector.x, -1 * this.moveVector.y);
-    }
-    if (this.fullBounds().left() < this.parent.left()) {
-        this.moveVector = new Point(-1 * this.moveVector.x, this.moveVector.y);
-    }
-    if (this.fullBounds().right() > this.parent.right()) {
-        this.moveVector = new Point(-1 * this.moveVector.x, this.moveVector.y);
-    }
-    if (this.overlappedMorphs().length !== 0) {
-        this.moveVector = this.moveVector.multiplyBy(-1);
-    }
-};
 
 module.exports = {
     MovableMorph: MovableMorph

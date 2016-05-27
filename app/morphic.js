@@ -10989,4 +10989,5 @@ module.exports = {
     Morph: Morph,
     Point: Point,
     newCanvas: newCanvas,
+    Color: Color,
 };

@@ -1,16 +1,18 @@
-var {ModifiableEllipseMorph} = require('./ModifiableEllipseMorph.js');
 var {SimulationWorldMorph} = require('./SimulationWorldMorph');
 
 var world = new SimulationWorldMorph(document.getElementById('world'));
 
 world.isDevMode = true;
 
-console.log("setup done, starting animation frame loop");
-
+module.exports = {
+    world: world
+};
 
 function loop() {
-  requestAnimationFrame(loop);
-  world.doOneCycle();
+    requestAnimationFrame(loop);
+    world.doOneCycle();
 }
+
+console.log("setup done, starting animation frame loop");
 
 loop();
