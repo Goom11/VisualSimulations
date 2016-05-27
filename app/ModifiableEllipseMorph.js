@@ -15,6 +15,11 @@ class ModifiableEllipseMorph extends MovableMorph {
     init () {
         super.init();
         this.setExtent(new Point(50, 50));
+        this.toCloneCount = 0;
+    }
+
+    mouseClickLeft () {
+        // TODO : add attributes box
     }
 
     drawNew () {
@@ -95,20 +100,35 @@ class ModifiableEllipseMorph extends MovableMorph {
         return holeyProps;
     }
 
-    cloneN () {
-        for (var i = 0; i < 10; i++) {
-            var clone = this.fullCopy();
-            var world = this.world();
-            clone.pickUp(world);
-            world.hand.drop();
-            var holeyProps = this.getHoleyProperties();
-            var clonePostConditionsSatisfied = true;
+    clone () {
+        var clone = this.fullCopy();
+        clone.toCloneCount = 0;
+        var world = this.world();
+        clone.pickUp(world);
+        world.hand.drop();
+        var holeyProps = this.getHoleyProperties();
+        var clonePostConditionsSatisfied = true;
 
-            // create holey morph
-            // check that holey morph is valid
-            // if not valid, loop and reevaluate holey properties
-            // if valid, done
-            while (!holeyProps.applyOntoMorph(clone)) {}
+        // create holey morph
+        // check that holey morph is valid
+        // if not valid, loop and reevaluate holey properties
+        // if valid, done
+        while (!holeyProps.applyOntoMorph(clone)) {}
+    }
+
+    cloneN () {
+        this.toCloneCount = this.toCloneCount + 20;
+    }
+
+    step () {
+        super.step();
+        if (this.toCloneCount > 0) {
+            for (var i = 0; i < 20; i++) {
+                if (this.toCloneCount > 0) {
+                    this.clone();
+                    this.toCloneCount = this.toCloneCount - 1;
+                }
+            }
         }
     }
 
