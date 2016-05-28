@@ -10987,6 +10987,8 @@ WorldMorph.prototype.togglePreferences = function () {
 module.exports = {
     WorldMorph: WorldMorph,
     Morph: Morph,
+    BoxMorph: BoxMorph,
+    CircleBoxMorph: CircleBoxMorph,
     Point: Point,
     newCanvas: newCanvas,
     Color: Color,

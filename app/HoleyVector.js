@@ -8,13 +8,16 @@ var {getRandomInRange, getRandomNumberFromZeroTo} = require('./mathHelpers');
 class HoleyVector extends Point {
     constructor (direction, magnitude = 1) {
         super();
-        var directionScaledToMagnitude =
-            direction.divideBy(direction.r()).multiplyBy(magnitude);
-        this.x = directionScaledToMagnitude.x;
-        this.y = directionScaledToMagnitude.y;
+        this.direction = direction;
+        this.magnitude = magnitude;
+        this.polarToCartesianSave();
     }
 
-    // TODO: make this actually random // right now the direction is not random
+    copy () {
+        return new HoleyVector(this.direction, this.r());
+    }
+
+    // TODO: make this actually random // right now the direction is biased towards corners
     // TODO: move these arbitrary limits to the postconditions
     static random () {
         return new HoleyVector(
@@ -23,19 +26,40 @@ class HoleyVector extends Point {
         );
     }
 
+    setMagnitude (magnitude) {
+        this.magnitude = magnitude;
+        this.polarToCartesianSave();
+    }
 
-    direction () {
-        return new Point(this.x, this.y);
+    setDirection (direction) {
+        this.direction = direction;
+        this.polarToCartesianSave();
     }
 
     normalizedDirection () {
-        var direction = this.direction();
+        var direction = this.direction;
         return direction.divideBy(direction.r())
     }
 
-    copy () {
-        return new HoleyVector(this.direction(), this.r());
+    cartesianToPolarSave () {
+        var newDirection = new Point(this.x, this.y);
+        this.magnitude = newDirection.r();
+        if (this.x === 0 && this.y === 0) {
+            // don't update direction
+            return;
+        } else {
+            this.direction = newDirection;
+        }
     }
+
+    polarToCartesianSave () {
+        var direction = this.direction;
+        var directionScaledToMagnitude =
+            direction.divideBy(direction.r()).multiplyBy(this.magnitude);
+        this.x = directionScaledToMagnitude.x;
+        this.y = directionScaledToMagnitude.y;
+    }
+
 }
 
 module.exports = {
