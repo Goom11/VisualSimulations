@@ -2,18 +2,15 @@
  * Created by aman on 5/27/16.
  */
 
-var {DebuggableMorph} = require('./DebuggableMorph');
-var {Morph, Point, newCanvas} = require('./morphic');
+var {ModifiableEllipseMorph} = require('./ModifiableEllipseMorph');
+var {Point, newCanvas} = require('./morphic');
 
-class StackLayoutMorph extends DebuggableMorph {
+class StackLayoutMorph extends ModifiableEllipseMorph {
     constructor (stackItems) {
         super();
         super.init();
         this.stackItems = stackItems;
         stackItems.forEach((stackItem) => {
-            // if (item.parent === undefined) {
-            //     item.parent = null;
-            // }
             this.add(stackItem);
             stackItem.isDraggable = false;
             stackItem.stopMoving && stackItem.stopMoving();
