@@ -1,7 +1,7 @@
 var {Point, newCanvas} = require('./morphic');
 var {MovableMorph} = require('./MovableMorph');
 var {HoleyPropertiesSet} = require('./HoleyPropertiesSet');
-var {HoleyColor} = require('./HoleyColor');
+// var {HoleyColor} = require('./HoleyColor');
 var {HoleyPosition} = require('./HoleyPosition');
 var {HoleyVector} = require('./HoleyVector');
 var {HoleyNumber} = require('./HoleyNumber');
@@ -14,6 +14,7 @@ class ModifiableEllipseMorph extends MovableMorph {
     }
 
     mouseClickLeft () {
+        console.log("ugh");
         // TODO : add attributes box
     }
 
@@ -53,11 +54,11 @@ class ModifiableEllipseMorph extends MovableMorph {
 
     getHoleyProperties () {
         var holeyProps = new HoleyPropertiesSet();
-        holeyProps.add({
-            property : 'color',
-            setter : 'setColor',
-            propertyClass : HoleyColor,
-        });
+//         holeyProps.add({
+//             property : 'color',
+//             setter : 'setColor',
+//             propertyClass : HoleyColor,
+//         });
 
         holeyProps.add({
             property : 'position',
@@ -91,6 +92,7 @@ class ModifiableEllipseMorph extends MovableMorph {
         return holeyProps;
     }
 
+    // TODO : make this work for StackLayoutMorph and others(?)
     clone () {
         var clone = this.fullCopy();
         clone.toCloneCount = 0;

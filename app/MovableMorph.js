@@ -9,7 +9,6 @@ var {HoleyVector} = require('./HoleyVector');
 class MovableMorph extends DebuggableMorph {
     constructor() {
         super();
-        super.init();
         this.fps = 50;
         this.moveVector = new HoleyVector(new Point(1, 1));
     }

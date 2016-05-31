@@ -8,7 +8,6 @@ var {Point, newCanvas} = require('./morphic');
 class StackLayoutMorph extends ModifiableEllipseMorph {
     constructor (stackItems) {
         super();
-        super.init();
         this.stackItems = stackItems;
         stackItems.forEach((stackItem) => {
             this.add(stackItem);
@@ -34,12 +33,16 @@ class StackLayoutMorph extends ModifiableEllipseMorph {
 
         this.image = newCanvas(this.extent());
 
-        var position = this.position();
         this.stackItems.reduce((previous, current) => {
-            current.setPosition(new Point(position.x , previous));
+            current.setPosition(previous);
             current.drawNew();
-            return previous + current.height();
-        }, position.y);
+            return current.bottomLeft();
+        }, this.position());
+    }
+
+    mouseClickLeft (position) {
+        console.log("oh no");
+        debugger;
     }
 }
 
