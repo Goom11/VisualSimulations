@@ -2,10 +2,10 @@
  * Created by aman on 5/27/16.
  */
 
-var {ModifiableEllipseMorph} = require('./ModifiableEllipseMorph');
+var {MorphComponent} = require('./MorphComponent');
 var {Point, newCanvas} = require('./morphic');
 
-class StackLayoutMorph extends ModifiableEllipseMorph {
+class StackLayoutMorph extends MorphComponent {
     constructor (stackItems = []) {
         super();
         this.updateStackItems(stackItems);

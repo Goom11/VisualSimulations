@@ -6,10 +6,10 @@ var {HoleyPosition} = require('./HoleyPosition');
 var {HoleyVector} = require('./HoleyVector');
 var {HoleyNumber} = require('./HoleyNumber');
 
-class ModifiableEllipseMorph extends MovableMorph {
-    constructor () {
+class MorphComponent extends MovableMorph {
+    constructor (size = new Point(0, 0)) {
         super();
-        this.setExtent(new Point(50, 50));
+        this.setExtent(size);
         this.toCloneCount = 0;
     }
 
@@ -146,17 +146,7 @@ class ModifiableEllipseMorph extends MovableMorph {
     }
 }
 
-class PrototypeTreeMorph extends ModifiableEllipseMorph {
-    constructor () {
-        super();
-        this.init();
-    }
-
-    init () {
-        super.init();
-    }
-}
 
 module.exports = {
-    ModifiableEllipseMorph: ModifiableEllipseMorph
+    MorphComponent: MorphComponent
 };

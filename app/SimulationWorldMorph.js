@@ -3,7 +3,7 @@
  */
 
 var {WorldMorph, Morph, BoxMorph, CircleBoxMorph} = require('./morphic');
-var {ModifiableEllipseMorph} = require('./ModifiableEllipseMorph');
+var {MorphComponent} = require('./MorphComponent');
 var {StackLayoutMorph} = require('./StackLayoutMorph');
 var {CompositeMorph} = require('./CompositeMorph');
 var {HoleyColor} = require('./HoleyColor');
@@ -18,7 +18,7 @@ class SimulationWorldMorph extends WorldMorph {
         };
         menu.addLine();
         menu.addItem('modifiable ellipse morph',
-            () => createAndDrop(new ModifiableEllipseMorph()));
+            () => createAndDrop(new MorphComponent()));
         menu.addLine();
         menu.addItem('test stack layout morph',
             () => createAndDrop(
