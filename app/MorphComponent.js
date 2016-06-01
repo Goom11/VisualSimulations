@@ -7,32 +7,19 @@ var {HoleyVector} = require('./HoleyVector');
 var {HoleyNumber} = require('./HoleyNumber');
 
 class MorphComponent extends MovableMorph {
-    constructor (size = new Point(0, 0)) {
+    constructor () {
         super();
-        this.setExtent(size);
+        this.setExtent(new Point(0, 0));
         this.toCloneCount = 0;
     }
 
-    // TODO : add attributes box
+    // TODO : open in attributes area
     // mouseClickLeft () {
     //     console.log("ugh");
     // }
 
     drawNew () {
         this.image = newCanvas(this.extent());
-        var context = this.image.getContext('2d');
-        context.fillStyle = this.color.toString();
-        context.ellipse(
-            this.width()/2,
-            this.height()/2,
-            this.width()/2,
-            this.height()/2,
-            0,
-            0,
-            2 * Math.PI,
-            false
-        );
-        context.fill();
     }
 
     developersMenu () {
@@ -43,22 +30,11 @@ class MorphComponent extends MovableMorph {
             'cloneN',
             'make multiple clones of this object'
         );
-        menu.addLine();
-        menu.addItem(
-            "Open In Prototype Tree",
-            'openInPrototypeTree',
-            'open this morph in the prototype tree'
-        );
         return menu;
     }
 
     getHoleyProperties () {
         var holeyProps = new HoleyPropertiesSet();
-//         holeyProps.add({
-//             property : 'color',
-//             setter : 'setColor',
-//             propertyClass : HoleyColor,
-//         });
 
         holeyProps.add({
             property : 'position',
@@ -77,6 +53,7 @@ class MorphComponent extends MovableMorph {
             propertyClass : HoleyVector,
         });
 
+        // TODO : convert height and width into a size property
         holeyProps.add({
             property : 'height',
             setter : 'setHeight',
@@ -97,6 +74,7 @@ class MorphComponent extends MovableMorph {
         var clone = this.fullCopy();
         clone.toCloneCount = 0;
         var world = this.world();
+        // TODO : don't pickup and drop but just place
         clone.pickUp(world);
         world.hand.drop();
         var holeyProps = this.getHoleyProperties();
@@ -122,15 +100,6 @@ class MorphComponent extends MovableMorph {
                 }
             }
         }
-    }
-
-    openInPrototypeTree () {
-        // open prototype tree at this morph or update prototype tree to focus on this morph
-        var prototypeTree = new PrototypeTreeMorph();
-        prototypeTree.isDraggable = true;
-        var world = this.world();
-        prototypeTree.pickUp(world);
-        world.hand.drop();
     }
 
     cleanMorph (aMorph) {

@@ -3,20 +3,24 @@
  */
 
 var {Point, newCanvas} = require('./morphic');
-var {MorphComponent} = require('./MorphComponent');
+var {CompositeMorph} = require('./CompositeMorph');
 var {getRandomIntFromZeroTo} = require('./mathHelpers');
+var {EllipseComponent} = require('./EllipseComponent');
 
-class HoleyColor extends MorphComponent {
+class HoleyColor extends CompositeMorph {
 
     constructor(r, g, b, a) {
-        super();
         // all values are optional, just (r, g, b) is fine
-        this.r = r || 0;
-        this.g = g || 0;
-        this.b = b || 0;
-        this.a = a || ((a === 0) ? 0 : 1);
-        this.color = this;
-        this.drawNew();
+        super();
+        this.updateHoleyColor(r, g, b, a);
+    }
+
+    updateHoleyColor (newR, newG, newB, newA) {
+        this.r = newR || 0;
+        this.g = newG || 0;
+        this.b = newB || 0;
+        this.a = newA || ((newA === 0) ? 0 : 1);
+        this.updateSubMorph(new EllipseComponent(this));
     }
 
     static random() {
@@ -32,19 +36,7 @@ class HoleyColor extends MorphComponent {
         return new HoleyColor(color.r, color.g, color.b, color.a);
     }
 
-//     drawNew () {
-//         this.image = newCanvas(this.extent());
-//         var context = this.image.getContext('2d');
-//         context.fillStyle = this.toString();
-//         context.fillRect(0, 0, this.width(), this.height());
-//         if (this.cachedTexture) {
-//             this.drawCachedTexture();
-//         } else if (this.texture) {
-//             this.drawTexture(this.texture);
-//         }
-//     }
-
-    toString () {
+    toFillStyleString () {
         return 'rgba(' +
             Math.round(this.r) + ',' +
             Math.round(this.g) + ',' +
