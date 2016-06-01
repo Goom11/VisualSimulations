@@ -20,7 +20,8 @@ class ColorPickerComponent extends CompositeMorph {
         this.colorPaletteComponent = new ColorPaletteComponent(
             (_) => {
                 this.updateColorPicker(_);
-                this.target(newColor);
+                var target = this.target;
+                target && target(newColor);
             },
             new Point(80, 50),
             this.color
