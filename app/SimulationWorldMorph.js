@@ -33,17 +33,8 @@ class SimulationWorldMorph extends WorldMorph {
         menu.addItem('test color morph can draw itself',
             () => createAndDrop(HoleyColor.random())
         );
-        if (!this.myColor) {
-            this.myColor = {};
-            this.myColor.value = HoleyColor.random();
-        }
         menu.addItem('test color picker component can draw itself',
-            () => createAndDrop(
-                new ColorPickerComponent(
-                    this.myColor.value,
-                    (newColor) => this.myColor.value = newColor
-                )
-            )
+            () => createAndDrop(new ColorPickerComponent())
         );
         return menu;
     }

@@ -8,10 +8,19 @@ var {Point, newCanvas} = require('./morphic');
 class CompositeMorph extends ModifiableEllipseMorph {
     constructor (subMorph) {
         super();
+        this.updateSubMorph(subMorph);
+    }
+
+    updateSubMorph(subMorph) {
+        var oldSubMorph = this.subMorph;
+        if (oldSubMorph) {
+            this.cleanMorph(oldSubMorph);
+        }
+
         this.subMorph = subMorph;
-        this.add(subMorph);
-        subMorph.isDraggable = false;
-        subMorph.stopMoving && subMorph.stopMoving();
+        if (subMorph) {
+            this.makeFixedChild(subMorph);
+        }
         this.drawNew();
     }
 
@@ -27,9 +36,10 @@ class CompositeMorph extends ModifiableEllipseMorph {
         this.subMorph.drawNew();
     }
 
-    mouseClickLeft (position) {
-        return this.subMorph.mouseClickLeft(position);
-    }
+    // TODO : figure out if I need this systematically
+    // mouseClickLeft (position) {
+        // return this.subMorph.mouseClickLeft(position);
+    // }
 }
 
 module.exports = {

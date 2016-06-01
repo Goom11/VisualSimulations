@@ -13,10 +13,10 @@ class ModifiableEllipseMorph extends MovableMorph {
         this.toCloneCount = 0;
     }
 
-    mouseClickLeft () {
-        console.log("ugh");
-        // TODO : add attributes box
-    }
+    // TODO : add attributes box
+    // mouseClickLeft () {
+    //     console.log("ugh");
+    // }
 
     drawNew () {
         this.image = newCanvas(this.extent());
@@ -100,7 +100,6 @@ class ModifiableEllipseMorph extends MovableMorph {
         clone.pickUp(world);
         world.hand.drop();
         var holeyProps = this.getHoleyProperties();
-        var clonePostConditionsSatisfied = true;
 
         // create holey morph
         // check that holey morph is valid
@@ -132,6 +131,18 @@ class ModifiableEllipseMorph extends MovableMorph {
         var world = this.world();
         prototypeTree.pickUp(world);
         world.hand.drop();
+    }
+
+    cleanMorph (aMorph) {
+        this.removeChild(aMorph);
+        aMorph.destroy();
+    }
+
+    makeFixedChild (aMorph) {
+        this.add(aMorph);
+        aMorph.isDraggable = false;
+        // TODO : am I being overly cautious?
+        aMorph.stopMoving && aMorph.stopMoving();
     }
 }
 

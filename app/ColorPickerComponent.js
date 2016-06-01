@@ -10,17 +10,30 @@ var {ColorPaletteComponent} = require('./ColorPaletteComponent');
 
 class ColorPickerComponent extends CompositeMorph {
     constructor (color = HoleyColor.random(), target = null) {
-        var myself;
-        super(
+        super();
+        this.updateColorPicker(color, target);
+    }
+
+    updateColorPicker(newColor, newTarget = this.target) {
+        this.color = newColor;
+        this.target = newTarget;
+        this.colorPaletteComponent = new ColorPaletteComponent(
+            (_) => {
+                this.updateColorPicker(_);
+                this.target(newColor);
+            },
+            new Point(80, 50),
+            this.color
+        );
+        this.updateSubMorph(
             new StackLayoutMorph([
-                color,
-                new ColorPaletteComponent(target, new Point(80, 50), color)
+                this.color,
+                this.colorPaletteComponent
             ])
         );
-        myself = this;
-        this.color = color;
     }
-};
+
+}
 
 module.exports = {
     ColorPickerComponent: ColorPickerComponent

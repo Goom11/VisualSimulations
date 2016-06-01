@@ -6,14 +6,20 @@ var {ModifiableEllipseMorph} = require('./ModifiableEllipseMorph');
 var {Point, newCanvas} = require('./morphic');
 
 class StackLayoutMorph extends ModifiableEllipseMorph {
-    constructor (stackItems) {
+    constructor (stackItems = []) {
         super();
+        this.updateStackItems(stackItems);
         this.stackItems = stackItems;
-        stackItems.forEach((stackItem) => {
-            this.add(stackItem);
-            stackItem.isDraggable = false;
-            stackItem.stopMoving && stackItem.stopMoving();
-        });
+    }
+
+    updateStackItems (newStackItems) {
+        var oldStackItems = this.stackItems;
+        if (oldStackItems) {
+            oldStackItems.forEach(_ => this.cleanMorph(_));
+        }
+
+        this.stackItems = newStackItems;
+        newStackItems.forEach(_ => this.makeFixedChild(_));
         this.drawNew();
     }
 
@@ -40,10 +46,11 @@ class StackLayoutMorph extends ModifiableEllipseMorph {
         }, this.position());
     }
 
-    mouseClickLeft (position) {
-        console.log("oh no");
-        debugger;
-    }
+    // TODO : check if this is necessary or morphic deals
+    // mouseClickLeft (position) {
+    //     console.log("oh no");
+    //     debugger;
+    // }
 }
 
 module.exports = {
