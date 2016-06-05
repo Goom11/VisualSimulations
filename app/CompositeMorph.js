@@ -2,10 +2,10 @@
  * Created by aman on 5/27/16.
  */
 
-var {MorphComponent} = require('./MorphComponent');
+var {Component} = require('./Component');
 var {Point, newCanvas} = require('./morphic');
 
-class CompositeMorph extends MorphComponent {
+class CompositeMorph extends Component {
     constructor (subMorph) {
         super();
         this.updateSubMorph(subMorph);

@@ -2,8 +2,8 @@
  * Created by aman on 5/25/16.
  */
 
+var {EllipseComponent} = require('./EllipseComponent');
 var {WorldMorph, Morph, BoxMorph, CircleBoxMorph} = require('./morphic');
-var {MorphComponent} = require('./MorphComponent');
 var {StackLayoutMorph} = require('./StackLayoutMorph');
 var {CompositeMorph} = require('./CompositeMorph');
 var {HoleyColor} = require('./HoleyColor');
@@ -18,7 +18,7 @@ class SimulationWorldMorph extends WorldMorph {
         };
         menu.addLine();
         menu.addItem('modifiable ellipse morph',
-            () => createAndDrop(new MorphComponent()));
+            () => createAndDrop(new EllipseComponent()));
         menu.addLine();
         menu.addItem('test stack layout morph',
             () => createAndDrop(
@@ -30,8 +30,14 @@ class SimulationWorldMorph extends WorldMorph {
         menu.addItem('test composite layout morph',
             () => createAndDrop(new CompositeMorph(new Morph()))
         );
+
+
         menu.addItem('test color morph can draw itself',
-            () => createAndDrop(HoleyColor.random())
+            () => {
+                var color = HoleyColor.random();
+                color.visualize(color => new EllipseComponent(color));
+                createAndDrop(color);
+            }
         );
         menu.addItem('test color picker component can draw itself',
             () => createAndDrop(new ColorPickerComponent())

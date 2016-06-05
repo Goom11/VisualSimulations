@@ -2,11 +2,12 @@
  * Created by aman on 6/1/16.
  */
 
-var {MorphComponent} = require('./MorphComponent');
+var {HoleyColor} = require('./HoleyColor');
+var {Component} = require('./Component');
 var {Point, newCanvas} = require('./morphic');
 
-class EllipseComponent extends MorphComponent {
-    constructor (color) {
+class EllipseComponent extends Component {
+    constructor (color = HoleyColor.random()) {
         super();
         this.color = color;
         this.setExtent(new Point(50, 50));

@@ -3,10 +3,10 @@
  */
 
 var {Point, newCanvas} = require('./morphic');
-var {MorphComponent} = require('./MorphComponent');
+var {Component} = require('./Component');
 var {HoleyColor} = require('./HoleyColor');
 
-class ColorPaletteComponent extends MorphComponent {
+class ColorPaletteComponent extends Component {
     constructor (target = null, size = new Point(80, 50), choice = HoleyColor.random()) {
         super();
         this.target = target;

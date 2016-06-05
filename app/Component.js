@@ -6,17 +6,12 @@ var {HoleyPosition} = require('./HoleyPosition');
 var {HoleyVector} = require('./HoleyVector');
 var {HoleyNumber} = require('./HoleyNumber');
 
-class MorphComponent extends MovableMorph {
+class Component extends MovableMorph {
     constructor () {
         super();
         this.setExtent(new Point(0, 0));
         this.toCloneCount = 0;
     }
-
-    // TODO : open in attributes area
-    // mouseClickLeft () {
-    //     console.log("ugh");
-    // }
 
     drawNew () {
         this.image = newCanvas(this.extent());
@@ -117,5 +112,5 @@ class MorphComponent extends MovableMorph {
 
 
 module.exports = {
-    MorphComponent: MorphComponent
+    Component: Component
 };

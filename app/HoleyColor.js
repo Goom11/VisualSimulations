@@ -9,18 +9,21 @@ var {EllipseComponent} = require('./EllipseComponent');
 
 class HoleyColor extends CompositeMorph {
 
-    constructor(r, g, b, a) {
+    constructor(r, g, b, a, visualizer = false) {
         // all values are optional, just (r, g, b) is fine
         super();
-        this.updateHoleyColor(r, g, b, a);
+        this.updateHoleyColor(r, g, b, a, visualizer);
     }
 
-    updateHoleyColor (newR, newG, newB, newA) {
+    updateHoleyColor (newR, newG, newB, newA, newVisualizer) {
         this.r = newR || 0;
         this.g = newG || 0;
         this.b = newB || 0;
         this.a = newA || ((newA === 0) ? 0 : 1);
-        this.updateSubMorph(new EllipseComponent(this));
+        this.visualizer = newVisualizer;
+        if (this.visualizer) {
+            this.updateSubMorph(this.visualizer(this));
+        }
     }
 
     static random() {
@@ -28,8 +31,13 @@ class HoleyColor extends CompositeMorph {
             getRandomIntFromZeroTo(256),
             getRandomIntFromZeroTo(256),
             getRandomIntFromZeroTo(256),
-            Math.random()
+            Math.random(),
+            false
         );
+    }
+
+    visualize(visualizer) {
+        this.updateHoleyColor(this.r, this.g, this.b, this.a, visualizer);
     }
 
     static fromColor(color) {
